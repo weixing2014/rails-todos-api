@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Item, type: :model do
-  it { should belong_to(:todo) }
-  it { should validate_presence_of(:name) }
+  describe "validations" do
+    it { should belong_to(:todo) }
+    it { should validate_presence_of(:name) }
+  end
 end

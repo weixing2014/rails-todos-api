@@ -1,7 +1,7 @@
 module Api
   module V1
     class TodosController < ApplicationController
-      before_action :find_todo, only: [:show, :destroy]
+      before_action :find_todo, only: [:show, :update, :destroy]
 
       def index
         @todos = Todo.all
@@ -25,6 +25,11 @@ module Api
 
       def destroy
         @todo.destroy
+        head :no_content
+      end
+
+      def update
+        @todo.update_attributes(permitted_params)
         head :no_content
       end
 

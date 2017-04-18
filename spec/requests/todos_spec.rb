@@ -68,13 +68,36 @@ RSpec.describe 'Todos API', type: :request do
     context 'when request is invalid' do
       before { post "/api/v1/todos", params: { title: 'New Todo' } }
 
-      it 'creates a todo' do
+      it 'returns error messages' do
         expect(json['errors']['created_by']).to eq(["can't be blank"])
       end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
+    end
+  end
+
+  describe 'PUT /api/v1/todos/:id' do
+    context 'request is valid' do
+      before { put "/api/v1/todos/#{todo_id}", params: { title: 'New Todo' } }
+
+      it 'updates the todo with :id' do
+        expect(Todo.find(todo_id).title).to eq('New Todo')
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when request is invalid' do
+      # Todo
+      # before { post "/api/v1/todos/0", params: { title: 'New Todo' } }
+      #
+      # it 'returns status code 422' do
+      #   expect(response).to have_http_status(422)
+      # end
     end
   end
 end

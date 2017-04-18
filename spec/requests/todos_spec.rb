@@ -69,7 +69,7 @@ RSpec.describe 'Todos API', type: :request do
       before { post "/api/v1/todos", params: { title: 'New Todo' } }
 
       it 'returns error messages' do
-        expect(json['errors']['created_by']).to eq(["can't be blank"])
+        expect(json['message']).to eq("Validation failed: Created by can't be blank")
       end
 
       it 'returns status code 422' do
@@ -92,12 +92,15 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when request is invalid' do
-      # Todo
-      # before { post "/api/v1/todos/0", params: { title: 'New Todo' } }
-      #
-      # it 'returns status code 422' do
-      #   expect(response).to have_http_status(422)
-      # end
+      before { put "/api/v1/todos/0", params: { title: 'New Todo' } }
+
+      it 'returns error message' do
+        expect(json['message']).to eq("Couldn't find Todo with 'id'=0")
+      end
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(404)
+      end
     end
   end
 end

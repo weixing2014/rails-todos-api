@@ -14,13 +14,8 @@ module Api
       end
 
       def create
-        @todo = Todo.new(permitted_params)
-
-        if @todo.save
-          render json: @todo, status: :ok
-        else
-          render json: { errors: @todo.errors }, status: :unprocessable_entity
-        end
+        @todo = Todo.create!(permitted_params)
+        render json: @todo, status: :ok
       end
 
       def destroy

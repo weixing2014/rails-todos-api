@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Todos API', type: :request do
   let!(:todos) { create_list(:todo, 10) }
   let(:todo_id) { todos.first.id }
+  let(:invalid_todo_id) { 0 }
 
   describe 'GET /api/v1/todos' do
     before { get '/api/v1/todos' }
@@ -30,7 +31,11 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when :id is invalid' do
-      # Todo
+      before { get "/api/v1/todos/#{invalid_todo_id}" }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
     end
   end
 
@@ -48,7 +53,11 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when :id is invalid' do
-      # Todo
+      before { delete "/api/v1/todos/#{invalid_todo_id}" }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
     end
   end
 
@@ -92,10 +101,10 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when request is invalid' do
-      before { put "/api/v1/todos/0", params: { title: 'New Todo' } }
+      before { put "/api/v1/todos/#{invalid_todo_id}", params: { title: 'New Todo' } }
 
       it 'returns error message' do
-        expect(json['message']).to eq("Couldn't find Todo with 'id'=0")
+        expect(json['message']).to eq("Couldn't find Todo with 'id'=#{invalid_todo_id}")
       end
 
       it 'returns status code 422' do

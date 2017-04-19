@@ -33,6 +33,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'faker'
   gem 'database_cleaner'
+  gem 'bcrypt', '~> 3.1.7'
 end
 
 group :development do

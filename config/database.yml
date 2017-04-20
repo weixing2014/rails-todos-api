@@ -1,8 +1,8 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  username: root
-  password:
+  username: monorail
+  password: monorail
   host: 127.0.0.1
   port: 3306
 

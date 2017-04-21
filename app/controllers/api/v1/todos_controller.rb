@@ -1,6 +1,7 @@
 module Api
   module V1
     class TodosController < ApplicationController
+      before_action :authenticate_user
       before_action :find_todo, only: [:show, :update, :destroy]
 
       def index

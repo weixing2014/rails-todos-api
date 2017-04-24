@@ -1,3 +1,6 @@
+# Input: http request headers
+# Output: an User instance
+
 class AuthorizeApiRequest
   attr_reader :headers
 

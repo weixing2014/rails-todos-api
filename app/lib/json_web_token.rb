@@ -1,3 +1,5 @@
+# Encode and decode a JWT instance based on Rails app secret key, payload and expired time
+
 class JsonWebToken
   HMAC_SECRET = Rails.application.secrets.secret_key_base
 

@@ -1,3 +1,6 @@
+# Input: email and a password
+# Output: token
+
 class AuthenticateUser
   attr_reader :email, :password
 

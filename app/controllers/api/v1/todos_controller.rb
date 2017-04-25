@@ -4,7 +4,7 @@ module Api
       before_action :find_todo, only: [:show, :update, :destroy]
 
       def index
-        @todos = Todo.all
+        @todos = current_user.todos
         json_response(@todos)
       end
 
@@ -13,8 +13,8 @@ module Api
       end
 
       def create
-        @todo = Todo.create!(permitted_params)
-        json_response(@todo)
+        @todo = @current_user.todos.create!(permitted_params)
+        json_response(@todo, :created)
       end
 
       def destroy
@@ -30,7 +30,7 @@ module Api
       private
 
       def permitted_params
-        params.permit(:title, :created_by)
+        params.permit(:title)
       end
 
       def find_todo

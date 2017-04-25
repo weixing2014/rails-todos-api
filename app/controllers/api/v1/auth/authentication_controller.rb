@@ -2,6 +2,8 @@ module Api
   module V1
     module Auth
       class AuthenticationController < ApplicationController
+        skip_before_action :authorize_request
+
         def login
           auth_token = AuthenticateUser.new(permitted_params[:email], permitted_params[:password]).call
           json_response(auth_token: auth_token)

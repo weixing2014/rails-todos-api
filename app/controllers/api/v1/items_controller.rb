@@ -1,15 +1,16 @@
 module Api
   module V1
     class ItemsController < ApplicationController
+      before_action :find_todo
       before_action :find_item, only: [:show, :update, :destroy]
 
       def index
         @items = @todo.items
-        render json: @items, status: :ok
+        json_response(@items)
       end
 
       def show
-        render json: @item, status: :ok
+        json_response(@item)
       end
 
       def update
@@ -24,7 +25,7 @@ module Api
 
       def create
         @item = Item.create!(permitted_params)
-        render json: @item, status: :ok
+        json_response(@item)
       end
 
       private

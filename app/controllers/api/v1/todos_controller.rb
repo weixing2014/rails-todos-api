@@ -5,7 +5,7 @@ module Api
 
       def index
         @todos = Todo.all
-        render json: @todos, status: :ok
+        json_response(@todos)
       end
 
       def show
@@ -14,7 +14,7 @@ module Api
 
       def create
         @todo = Todo.create!(permitted_params)
-        render json: @todo, status: :ok
+        json_response(@todo)
       end
 
       def destroy

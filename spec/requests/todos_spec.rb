@@ -63,7 +63,9 @@ RSpec.describe 'Todos API', type: :request do
 
   describe 'POST /api/v1/todos' do
     context 'request is valid' do
-      before { post "/api/v1/todos", params: { title: 'New Todo', created_by: '1' } }
+      before {
+        post "/api/v1/todos", params: { title: 'New Todo', created_by: '1' }
+      }
 
       it 'creates a todo' do
         expect(json['title']).to eq('New Todo')

@@ -4,6 +4,7 @@ module ExceptionHandler
   class AuthenticationError < StandardError; end
   class MissingTokenError < StandardError; end
   class InvalidTokenError < StandardError; end
+  class ExpiredSignatureError < StandardError; end
 
   included do
     rescue_from ActiveRecord::RecordNotFound do |e|
@@ -13,7 +14,7 @@ module ExceptionHandler
     rescue_from ActiveRecord::RecordInvalid, with: :four_twenty_two
     rescue_from ExceptionHandler::MissingTokenError, with: :four_twenty_two
     rescue_from ExceptionHandler::InvalidTokenError, with: :four_twenty_two
-
+    rescue_from ExceptionHandler::ExpiredSignatureError, with: :four_twenty_two
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized_request
   end
 

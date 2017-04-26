@@ -1,4 +1,5 @@
 import reducer from './todos';
+import {actionTypes} from '../actions';
 
 describe('todos reducer', () => {
   it('should return the initial state', () => {
@@ -8,7 +9,7 @@ describe('todos reducer', () => {
   describe('should handle ADD_TODO', () => {
     it('should set the first todo id = 0', () => {
       expect(reducer([], {
-        type: 'ADD_TODO',
+        type: actionTypes.ADD_TODO,
         text: 'Call Lady Gaga'
       })).toEqual([
         {
@@ -27,7 +28,7 @@ describe('todos reducer', () => {
           completed: false
         }
       ], {
-        type: 'ADD_TODO',
+        type: actionTypes.ADD_TODO,
         text: 'Call Lady Baba'
       })).toEqual([
         {
@@ -42,5 +43,37 @@ describe('todos reducer', () => {
         },
       ]);
     });
+  });
+
+  it('should handle TOGGLE_TODO', () => {
+    let state = [
+      {
+        id: 0,
+        completed: false,
+        text: 'Lady Gaga'
+      },
+      {
+        id: 1,
+        completed: false,
+        text: 'Lady Baba'
+      }
+    ];
+
+    let nextState = [{
+      id: 0,
+      completed: true,
+      text: 'Lady Gaga'
+    }, {
+      id: 1,
+      completed: false,
+      text: 'Lady Baba'
+    }];
+
+    let action = {
+      type: actionTypes.TOGGLE_TODO,
+      id: 0
+    };
+
+    expect(reducer(state, action)).toEqual(nextState);
   });
 });

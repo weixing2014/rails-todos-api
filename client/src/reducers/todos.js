@@ -17,6 +17,8 @@ const todos = (state = [], action) => {
             text: todo.text,
             completed: !todo.completed
           }
+        } else {
+          return todo;
         }
       });
 

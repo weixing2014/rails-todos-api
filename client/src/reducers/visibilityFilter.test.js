@@ -1,4 +1,5 @@
 import reducer from './visibilityFilter';
+import { actionTypes } from '../actions';
 
 describe('visibilityFilter reducer', () => {
   it('should return the initial state', () => {
@@ -7,7 +8,7 @@ describe('visibilityFilter reducer', () => {
 
   it('should handle SET_VISIBILITY_FILTER', () => {
     expect(reducer('SHOW_ALL', {
-      type: 'SET_VISIBILITY_FILTER',
+      type: actionTypes.SET_VISIBILITY_FILTER,
       filter: 'ACTIVE'
     })).toEqual('ACTIVE');
   });

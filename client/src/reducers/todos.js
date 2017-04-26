@@ -1,10 +1,10 @@
-const todo = (state = {}, action) => {
+const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
         ...state,
         {
-          id: action.id,
+          id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
           text: action.text,
           completed: false
         }
@@ -25,4 +25,4 @@ const todo = (state = {}, action) => {
   }
 };
 
-export default todo;
+export default todos;

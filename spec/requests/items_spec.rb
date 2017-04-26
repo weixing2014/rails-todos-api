@@ -1,17 +1,19 @@
 require 'rails_helper'
 
 describe 'Items API' do
-  let!(:todo) { create(:todo) }
+  let(:user) { create(:user) }
+  let!(:todo) { create(:todo, created_by: user.id) }
   let!(:items) { create_list(:item, 20, todo_id: todo.id) }
   let(:todo_id) { todo.id }
   let(:invalid_todo_id) { 0 }
   let(:item_id) { items.first.id }
   let(:item) { Item.find(item_id) }
   let(:invalid_item_id) { 0 }
+  let(:headers) { valid_headers }
 
-  describe 'GET /api/v1/todos/:todo_id/items' do
+  describe 'GET /todos/:todo_id/items' do
     context 'when todo exists' do
-      before { get "/api/v1/todos/#{todo_id}/items" }
+      before { get "/todos/#{todo_id}/items", params: {}, headers: headers }
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
@@ -23,7 +25,7 @@ describe 'Items API' do
     end
 
     context 'when todo does not exist' do
-      before { get "/api/v1/todos/#{invalid_todo_id}/items" }
+      before { get "/todos/#{invalid_todo_id}/items", params: {}, headers: headers }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -31,9 +33,9 @@ describe 'Items API' do
     end
   end
 
-  describe 'GET /api/v1/todos/:todo_id/items/:id' do
+  describe 'GET /todos/:todo_id/items/:id' do
     context 'when item id exist' do
-      before { get "/api/v1/todos/#{todo_id}/items/#{item_id}" }
+      before { get "/todos/#{todo_id}/items/#{item_id}", params: {}, headers: headers }
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
@@ -45,7 +47,7 @@ describe 'Items API' do
     end
 
     context 'when item id does not exist' do
-      before { get "/api/v1/todos/#{todo_id}/items/#{invalid_item_id}" }
+      before { get "/todos/#{todo_id}/items/#{invalid_item_id}", params: {}, headers: headers }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -53,9 +55,9 @@ describe 'Items API' do
     end
   end
 
-  describe 'PUT /api/v1/todos/:todo_id/items/:id' do
+  describe 'PUT /todos/:todo_id/items/:id' do
     context 'when item id exist' do
-      before { put "/api/v1/todos/#{todo_id}/items/#{item_id}", params: { name: 'Hello Kitty', done: true } }
+      before { put "/todos/#{todo_id}/items/#{item_id}", params: { name: 'Hello Kitty', done: true }.to_json, headers: headers }
 
       it 'returns status code 204' do
         expect(response).to have_http_status(204)
@@ -68,9 +70,9 @@ describe 'Items API' do
     end
   end
 
-  describe 'POST /api/v1/todos/:todo_id/items' do
+  describe 'POST /todos/:todo_id/items' do
     context 'when todo id exist' do
-      before { post "/api/v1/todos/#{todo_id}/items", params: { name: 'Hello Kitty' } }
+      before { post "/todos/#{todo_id}/items", params: { name: 'Hello Kitty' }.to_json, headers: headers }
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
@@ -85,9 +87,9 @@ describe 'Items API' do
     end
   end
 
-  describe 'Delete /api/v1/todos/:todo_id/items/:item_id' do
+  describe 'Delete /todos/:todo_id/items/:item_id' do
     context 'when todo id exist' do
-      before { delete "/api/v1/todos/#{todo_id}/items/#{item_id}" }
+      before { delete "/todos/#{todo_id}/items/#{item_id}", params: {}, headers: headers }
 
       it 'returns status code 204' do
         expect(response).to have_http_status(204)

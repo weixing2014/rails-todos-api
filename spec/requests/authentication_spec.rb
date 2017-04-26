@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Authentication', type: :request do
   let(:headers) { valid_headers.except('Authorization') }
 
-  describe 'POST /api/v1/auth/login' do
+  describe 'POST /login' do
     let!(:user) { create(:user) }
     let(:valid_credentials) do
       {
@@ -20,7 +20,7 @@ RSpec.describe 'Authentication', type: :request do
 
     context 'When request is valid' do
       before do
-        post '/api/v1/auth/login', params: valid_credentials, headers: headers
+        post '/login', params: valid_credentials, headers: headers
       end
 
       it 'returns an authentication token' do
@@ -30,7 +30,7 @@ RSpec.describe 'Authentication', type: :request do
 
     context 'When request is invalid' do
       before do
-        post '/api/v1/auth/login', params: invalid_credentials, headers: headers
+        post '/login', params: invalid_credentials, headers: headers
       end
 
       it 'returns an error message' do
@@ -39,7 +39,7 @@ RSpec.describe 'Authentication', type: :request do
     end
   end
 
-  describe 'POST /api/v1/auth/signup' do
+  describe 'POST /auth/signup' do
     let(:user) { build(:user) }
     let(:valid_attributes) do
       attributes_for(:user, password_confirmation: user.password)
@@ -47,7 +47,7 @@ RSpec.describe 'Authentication', type: :request do
 
     context 'When valid request' do
       before do
-        post '/api/v1/auth/signup', params: valid_attributes.to_json, headers: headers
+        post '/signup', params: valid_attributes.to_json, headers: headers
       end
 
       it 'creates a new user' do
@@ -65,7 +65,7 @@ RSpec.describe 'Authentication', type: :request do
 
     context 'When invalid request' do
       before do
-        post '/api/v1/auth/signup', params: {}, headers: headers
+        post '/signup', params: {}, headers: headers
       end
 
       it 'returns status code 422' do

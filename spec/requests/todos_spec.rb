@@ -7,8 +7,8 @@ RSpec.describe 'Todos API', type: :request do
   let(:invalid_todo_id) { 0 }
   let(:headers) { valid_headers }
 
-  describe 'GET /api/v1/todos' do
-    before { get '/api/v1/todos', params: {}, headers: headers }
+  describe 'GET /todos' do
+    before { get '/todos', params: {}, headers: headers }
 
     it 'returns todos' do
       expect(json.size).to eq(10)
@@ -19,9 +19,9 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
-  describe 'GET /api/v1/todos/:id' do
+  describe 'GET /todos/:id' do
     context 'when :id is valid' do
-      before { get "/api/v1/todos/#{todo_id}", params: {}, headers: headers }
+      before { get "/todos/#{todo_id}", params: {}, headers: headers }
 
       it 'returns todo' do
         expect(json['id']).to eq(todo_id)
@@ -33,7 +33,7 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when :id is invalid' do
-      before { get "/api/v1/todos/#{invalid_todo_id}", params: {}, headers: headers  }
+      before { get "/todos/#{invalid_todo_id}", params: {}, headers: headers  }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -41,9 +41,9 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/todos/:id' do
+  describe 'DELETE /todos/:id' do
     context 'when :id is valid' do
-      before { delete "/api/v1/todos/#{todo_id}", params: {}, headers: headers }
+      before { delete "/todos/#{todo_id}", params: {}, headers: headers }
 
       it 'removes todo with :id from database' do
         expect(user.todos.size).to eq(9)
@@ -55,7 +55,7 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when :id is invalid' do
-      before { delete "/api/v1/todos/#{invalid_todo_id}", params: {}, headers: headers }
+      before { delete "/todos/#{invalid_todo_id}", params: {}, headers: headers }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -63,10 +63,10 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/todos' do
+  describe 'POST /todos' do
     context 'request is valid' do
       before {
-        post "/api/v1/todos", params: { title: 'New Todo' }.to_json, headers: headers
+        post "/todos", params: { title: 'New Todo' }.to_json, headers: headers
       }
 
       it 'creates a todo' do
@@ -79,7 +79,7 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when request is invalid' do
-      before { post "/api/v1/todos", params: { title: '' }.to_json, headers: headers }
+      before { post "/todos", params: { title: '' }.to_json, headers: headers }
 
       it 'returns error messages' do
         expect(json['message']).to match(/Validation failed: Title can't be blank/)
@@ -91,11 +91,11 @@ RSpec.describe 'Todos API', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/todos/:id' do
+  describe 'PUT /todos/:id' do
     let(:valid_params) { { title: 'New Todo' }.to_json }
 
     context 'request is valid' do
-      before { put "/api/v1/todos/#{todo_id}", params: valid_params, headers: headers }
+      before { put "/todos/#{todo_id}", params: valid_params, headers: headers }
 
       it 'updates the todo with :id' do
         expect(Todo.find(todo_id).title).to eq('New Todo')
@@ -107,7 +107,7 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when request is invalid' do
-      before { put "/api/v1/todos/#{invalid_todo_id}", params: valid_params, headers: headers }
+      before { put "/todos/#{invalid_todo_id}", params: valid_params, headers: headers }
 
       it 'returns error message' do
         expect(json['message']).to eq("Couldn't find Todo with 'id'=#{invalid_todo_id}")

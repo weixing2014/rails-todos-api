@@ -1,12 +1,16 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
+import classNames from 'classnames';
 
-const Todo = ({ onClick, completed, text }) => {
+const Todo = ({onClick, completed, text}) => {
+  const textClass = classNames({
+    text: true,
+    'text-line-through': completed
+  });
+
   return (
     <li
-    onClick={onClick}
-    style={{
-      textDecoration: completed ? 'line-through' : 'none'
-    }}>
+      onClick={onClick}
+      className={textClass}>
       {text}
     </li>
   );

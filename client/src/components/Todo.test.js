@@ -26,8 +26,9 @@ describe('Todo Component', () => {
     expect(component.text()).toEqual('text');
   });
 
-  it('should have style line-through if completed', () => {
-
+  it('should have class .text-line-through if completed', () => {
+    const {component} = setup({completed: true});
+    expect(component.find('li').hasClass('text-line-through')).toEqual(true);
   });
 
   it('simulates click events', () => {
